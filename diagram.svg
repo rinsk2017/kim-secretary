@@ -1,0 +1,74 @@
+<svg viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .step-box {
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+      }
+      .step-text {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        text-anchor: middle;
+        dominant-baseline: middle;
+      }
+      .arrow-line {
+        fill: none;
+        stroke: #999;
+        stroke-width: 2;
+        stroke-linecap: round;
+      }
+      .arrow-head {
+        fill: #999;
+      }
+    </style>
+  </defs>
+
+  <!-- 배경 -->
+  <rect width="800" height="200" fill="white"/>
+
+  <!-- 화살표 1: 기획 → 제작 -->
+  <line x1="140" y1="100" x2="190" y2="100" class="arrow-line"/>
+  <polygon points="195,100 185,95 185,105" class="arrow-head"/>
+
+  <!-- 화살표 2: 제작 → 검토 -->
+  <line x1="300" y1="100" x2="350" y2="100" class="arrow-line"/>
+  <polygon points="355,100 345,95 345,105" class="arrow-head"/>
+
+  <!-- 화살표 3: 검토 → 배포 -->
+  <line x1="460" y1="100" x2="510" y2="100" class="arrow-line"/>
+  <polygon points="515,100 505,95 505,105" class="arrow-head"/>
+
+  <!-- 화살표 4: 배포 → 분석 -->
+  <line x1="620" y1="100" x2="670" y2="100" class="arrow-line"/>
+  <polygon points="675,100 665,95 665,105" class="arrow-head"/>
+
+  <!-- 단계 1: 기획 (파스텔 핑크) -->
+  <g>
+    <rect x="50" y="50" width="90" height="100" rx="12" ry="12" fill="#FFD4E5" class="step-box"/>
+    <text x="95" y="100" class="step-text" fill="#C2466E">기획</text>
+  </g>
+
+  <!-- 단계 2: 제작 (파스텔 블루) -->
+  <g>
+    <rect x="210" y="50" width="90" height="100" rx="12" ry="12" fill="#D4E8FF" class="step-box"/>
+    <text x="255" y="100" class="step-text" fill="#2E5C8A">제작</text>
+  </g>
+
+  <!-- 단계 3: 검토 (파스텔 그린) -->
+  <g>
+    <rect x="370" y="50" width="90" height="100" rx="12" ry="12" fill="#D4FFE5" class="step-box"/>
+    <text x="415" y="100" class="step-text" fill="#2E8A5E">검토</text>
+  </g>
+
+  <!-- 단계 4: 배포 (파스텔 옐로우) -->
+  <g>
+    <rect x="530" y="50" width="90" height="100" rx="12" ry="12" fill="#FFFFE0" class="step-box"/>
+    <text x="575" y="100" class="step-text" fill="#B8A700">배포</text>
+  </g>
+
+  <!-- 단계 5: 분석 (파스텔 퍼플) -->
+  <g>
+    <rect x="690" y="50" width="90" height="100" rx="12" ry="12" fill="#E8D4FF" class="step-box"/>
+    <text x="735" y="100" class="step-text" fill="#6E2E8A">분석</text>
+  </g>
+</svg>

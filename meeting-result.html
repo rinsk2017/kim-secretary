@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회의 결과 - 마케팅팀 주간회의</title>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fc;
+            --bg-glass: rgba(255, 255, 255, 0.7);
+            --border-glass: rgba(255, 255, 255, 0.2);
+            --text-primary: #1a1a2e;
+            --text-secondary: #555;
+            --accent: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f0f23;
+            --bg-secondary: #1a1a3e;
+            --bg-glass: rgba(255, 255, 255, 0.05);
+            --border-glass: rgba(255, 255, 255, 0.1);
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --accent: linear-gradient(135deg, #7c8ff0 0%, #9d5bd2 100%);
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
+            position: relative;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--accent);
+            opacity: 0.05;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.08) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+            animation: float 25s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, 30px); }
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 100;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            background: var(--accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid var(--border-glass);
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header a:hover {
+            background: var(--accent);
+            color: white;
+            border-color: transparent;
+        }
+
+        .theme-toggle {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--bg-glass);
+            border: 2px solid var(--border-glass);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .print-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 25px;
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card h2 {
+            font-size: 22px;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* 회의 정보 */
+        .meeting-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .info-item {
+            padding: 15px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border-left: 3px solid #667eea;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .info-value {
+            font-size: 16px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* 논의 내용 */
+        .summary-content {
+            padding: 20px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border-left: 3px solid #667eea;
+            line-height: 1.8;
+            margin-top: 20px;
+        }
+
+        .summary-content p {
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+
+        .summary-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* 액션 아이템 테이블 */
+        .action-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .action-table thead {
+            background: var(--accent);
+        }
+
+        .action-table th {
+            color: white;
+            padding: 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .action-table th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+
+        .action-table th:last-child {
+            border-radius: 0 8px 0 0;
+        }
+
+        .action-table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-glass);
+            background: var(--bg-secondary);
+            font-size: 14px;
+        }
+
+        .action-table tbody tr:last-child td {
+            border-bottom: none;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .action-table tbody tr:last-child td:first-child {
+            border-radius: 0 0 0 8px;
+        }
+
+        .action-table tbody tr:last-child td:last-child {
+            border-radius: 0 0 8px 0;
+        }
+
+        .assignee {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .due-date {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        /* 인쇄 스타일 */
+        @media print {
+            body {
+                background: white;
+            }
+
+            body::before,
+            body::after {
+                display: none;
+            }
+
+            .header {
+                margin-bottom: 20px;
+            }
+
+            .header-right {
+                display: none;
+            }
+
+            .card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+                page-break-inside: avoid;
+            }
+
+            .action-table {
+                margin-top: 15px;
+            }
+
+            .print-btn {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .meeting-info {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .action-table {
+                font-size: 12px;
+            }
+
+            .action-table td,
+            .action-table th {
+                padding: 12px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📋 회의 결과</h1>
+        <div class="header-right">
+            <button class="print-btn" onclick="window.print()">프린트</button>
+            <a href="dashboard.html">← 대시보드</a>
+            <button class="theme-toggle" id="themeToggle" title="테마 변경">🌙</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 회의 기본 정보 -->
+        <div class="card">
+            <h2>📌 회의 정보</h2>
+            <div class="meeting-info">
+                <div class="info-item">
+                    <div class="info-label">회의명</div>
+                    <div class="info-value">마케팅팀 주간회의</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">일시</div>
+                    <div class="info-value">2026년 3월 10일 (월)</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">참석자</div>
+                    <div class="info-value">김대리, 이과장, 박사원, 정팀장</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">다음 회의</div>
+                    <div class="info-value">3월 17일 (월) 10:00</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 논의 내용 요약 -->
+        <div class="card">
+            <h2>📝 논의 내용 요약</h2>
+            <div class="summary-content">
+                <p><strong>• SNS 광고 성과:</strong> A/B 테스트 결과 B안(영상형)이 A안(이미지형) 대비 클릭률 2.3배 높게 나타났으며, 이를 기반으로 향후 광고 전략 수정 예정</p>
+                <p><strong>• 신제품 런칭 일정:</strong> 4월 신제품 런칭에 맞춰 사전 티저를 3월 넷째 주부터 시작하기로 결정하여 시장 인지도 선제적 확보</p>
+                <p><strong>• 비용 계획:</strong> 영상 제작비 추가 200만원 요청으로 보다 고품질의 콘텐츠 제작 계획</p>
+                <p><strong>• 협력사 확보:</strong> 블로그 콘텐츠 3건 발행 완료 및 인플루언서 협업 1곳 회신 확보로 마케팅 채널 다각화 진행</p>
+            </div>
+        </div>
+
+        <!-- 액션 아이템 -->
+        <div class="card">
+            <h2>✅ 액션 아이템</h2>
+            <table class="action-table">
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">담당자</th>
+                        <th style="width: 50%;">할 일</th>
+                        <th style="width: 30%;">기한</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="assignee">김대리</span></td>
+                        <td>3월 프로모션 기획안 초안 작성</td>
+                        <td><span class="due-date">03월 12일 (수)</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="assignee">박사원</span></td>
+                        <td>B안 기반으로 영상 광고 3개 추가 제작</td>
+                        <td><span class="due-date">03월 14일 (금)</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="assignee">이과장</span></td>
+                        <td>인플루언서 미팅 일정 잡기</td>
+                        <td><span class="due-date">03월 14일 (금)</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="assignee">박사원</span></td>
+                        <td>경쟁사 C사 신규 캠페인 분석</td>
+                        <td><span class="due-date">미정</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+        const THEME_KEY = 'kim-secretary-theme';
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem(THEME_KEY) || 'light';
+            htmlElement.setAttribute('data-theme', savedTheme);
+            updateToggleIcon(savedTheme);
+        }
+
+        function updateToggleIcon(theme) {
+            themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+
+        function toggleTheme() {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem(THEME_KEY, newTheme);
+            updateToggleIcon(newTheme);
+        }
+
+        themeToggle.addEventListener('click', toggleTheme);
+        initTheme();
+    </script>
+</body>
+</html>
