@@ -1,25 +1,5 @@
 {
-  "name": "kim-secretary",
-  "version": 2,
-  "builds": [
-    {
-      "src": "index.html",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "$1"
-    }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "public": true,
-  "github": {
-    "enabled": true,
-    "autoAlias": true,
-    "autoJobCancelPreviousOnPush": true
-  }
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "trailingSlash": false
 }
